@@ -17,13 +17,13 @@ public class Todo {
     private Long id;
 
     // Let JPA handle default, nullable to avoid binding issues
-    @Column(nullable = true)
+    @Column(nullable = true, name = "created_at")
     private LocalDateTime created_at;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "is_done")
     private Boolean is_done;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "task")
     private String task;
 
     // Automatically set defaults before saving
