@@ -16,15 +16,24 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Let JPA handle default, nullable to avoid binding issues
+    @Column(nullable = true)
     private LocalDateTime created_at;
 
+    @Column(nullable = true)
     private Boolean is_done;
 
+    @Column(nullable = false)
     private String task;
 
+    // Automatically set defaults before saving
     @PrePersist
     protected void onCreate() {
-        created_at = LocalDateTime.now();
-        is_done = false;
+        if (created_at == null) {
+            created_at = LocalDateTime.now();
+        }
+        if (is_done == null) {
+            is_done = false;
+        }
     }
 }

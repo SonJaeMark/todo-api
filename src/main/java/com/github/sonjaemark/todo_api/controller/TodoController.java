@@ -20,14 +20,21 @@ public class TodoController {
     public String landingPage() {
         return "API is working!";
     }
+
     // CREATE TASK
     @PostMapping("/create-task")
     public Todo createTask(@RequestBody Map<String, String> body) {
+        String taskText = body.get("task");
+        if (taskText == null || taskText.trim().isEmpty()) {
+            throw new IllegalArgumentException("Task field is required");
+        }
+
         Todo todo = new Todo();
-        todo.setTask(body.get("task"));
-        // created_at and is_done will be set by @PrePersist
+        todo.setTask(taskText);
+        // is_done and created_at will be set automatically by @PrePersist
         return todoRepository.save(todo);
     }
+
     // GET ALL TASK
     @GetMapping("/get-all-task")
     public List<Todo> getAllTask() {
@@ -38,17 +45,22 @@ public class TodoController {
     @PutMapping("/mark-as-done/{id}")
     public Todo markAsDone(@PathVariable Long id) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("Task not found"));
         todo.setIs_done(true);
         return todoRepository.save(todo);
     }
 
     // UPDATE TASK
     @PutMapping("/update-task/{id}")
-    public Todo updateTask(@PathVariable Long id, @RequestBody Todo updatedTodo) {
+    public Todo updateTask(@PathVariable Long id, @RequestBody Map<String, String> body) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow();
-        todo.setTask(updatedTodo.getTask());
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        String taskText = body.get("task");
+        if (taskText != null && !taskText.trim().isEmpty()) {
+            todo.setTask(taskText);
+        }
+
         return todoRepository.save(todo);
     }
 }
