@@ -5,6 +5,7 @@ A modern REST API for managing todo tasks, built with Spring Boot and connected 
 ## 📋 Table of Contents
 
 - [Project Overview](#project-overview)
+- [Live Demo](#live-demo)
 - [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
@@ -18,9 +19,29 @@ A modern REST API for managing todo tasks, built with Spring Boot and connected 
 - [Docker Deployment](#docker-deployment)
 - [Development Guide](#development-guide)
 
+## � Live Demo
+
+The application is **live and running** on Render:
+
+**Base URL:** `https://todo-api-nnno.onrender.com/todo/api/v1`
+
+Test the API immediately without any setup:
+```bash
+# Health check
+curl https://todo-api-nnno.onrender.com/todo/api/v1/
+
+# Get all tasks
+curl https://todo-api-nnno.onrender.com/todo/api/v1/get-all-task
+
+# Create a task
+curl -X POST https://todo-api-nnno.onrender.com/todo/api/v1/create-task \
+  -H "Content-Type: application/json" \
+  -d '{"task":"Test task"}'
+```
+
 ## 🎯 Project Overview
 
-The Todo API is a RESTful web service that allows users to create, read, and manage todo tasks. The application is fully integrated with **Supabase**, a modern backend-as-a-service platform built on PostgreSQL, enabling reliable data persistence and real-time capabilities.
+The Todo API is a RESTful web service that allows users to create, read, and manage todo tasks. The application is fully integrated with **Supabase**, a modern backend-as-a-service platform built on PostgreSQL, enabling reliable data persistence and real-time capabilities. The API is production-ready and hosted on **Render**.
 
 ### Key Features
 - ✅ Create, read, and update todo tasks
@@ -31,6 +52,7 @@ The Todo API is a RESTful web service that allows users to create, read, and man
 - ✅ Spring Boot actuator for monitoring
 - ✅ Automatic timestamp management
 - ✅ Java 21 compatibility
+- ✅ Deployed and running on Render
 
 ## 🛠️ Tech Stack
 
@@ -222,10 +244,9 @@ todo-api/
 
 ## 📡 API Endpoints
 
-### Base URL
-```
-http://localhost:8080/todo/api/v1
-```
+### Base URLs
+- **Production (Render)**: `https://todo-api-nnno.onrender.com/todo/api/v1`
+- **Local Development**: `http://localhost:8080/todo/api/v1`
 
 ### 1. Health Check
 **GET** `/`
@@ -233,7 +254,12 @@ http://localhost:8080/todo/api/v1
 - **Response**: Simple string confirmation
 - **Status Code**: 200 OK
 
-**Example:**
+**Example (Production):**
+```bash
+curl https://todo-api-nnno.onrender.com/todo/api/v1/
+```
+
+**Example (Local):**
 ```bash
 curl http://localhost:8080/todo/api/v1/
 ```
@@ -253,7 +279,14 @@ API is working!
   ```json
   {
     "task": "Complete documentation"
-  }
+  } (Production):**
+```bash
+curl -X POST https://todo-api-nnno.onrender.com/todo/api/v1/create-task \
+  -H "Content-Type: application/json" \
+  -d '{"task":"Buy groceries"}'
+```
+
+**Example (Local)
   ```
 - **Status Code**: 201 Created
 - **Response**: Created Todo object with ID, timestamps, and status
@@ -280,7 +313,12 @@ curl -X POST http://localhost:8080/todo/api/v1/create-task \
 - `500 Internal Server Error`: Database connection issues
 
 ---
+ (Production):**
+```bash
+curl https://todo-api-nnno.onrender.com/todo/api/v1/get-all-task
+```
 
+**Example (Local)
 ### 3. Get All Tasks
 **GET** `/get-all-task`
 - **Description**: Retrieve all tasks from the database
@@ -314,7 +352,12 @@ curl http://localhost:8080/todo/api/v1/get-all-task
 
 ### 4. Mark Task as Done
 **PUT** `/mark-as-done/{id}`
-- **Description**: Mark a specific task as completed
+- **Descr (Production):**
+```bash
+curl -X PUT https://todo-api-nnno.onrender.com/todo/api/v1/mark-as-done/1
+```
+
+**Example (Local)iption**: Mark a specific task as completed
 - **Path Parameter**: `id` (Long) - Task ID
 - **Status Code**: 200 OK
 - **Response**: Updated Todo object with `is_done: true`
@@ -344,7 +387,14 @@ curl -X PUT http://localhost:8080/todo/api/v1/mark-as-done/1
 **PUT** `/update-task/{id}`
 - **Description**: Update the text of an existing task
 - **Path Parameter**: `id` (Long) - Task ID
-- **Content-Type**: `application/json`
+- **Conte (Production):**
+```bash
+curl -X PUT https://todo-api-nnno.onrender.com/todo/api/v1/update-task/1 \
+  -H "Content-Type: application/json" \
+  -d '{"task":"Buy organic groceries"}'
+```
+
+**Example (Local)nt-Type**: `application/json`
 - **Request Body**:
   ```json
   {
