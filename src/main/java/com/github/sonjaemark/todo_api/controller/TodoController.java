@@ -15,6 +15,10 @@ public class TodoController {
 
     private final TodoRepository todoRepository;
 
+    @GetMapping("/")
+    public String landingPage() {
+        return "API is working!";
+    }
     // CREATE TASK
     @PostMapping("/create-task")
     public Todo createTask(@RequestBody Todo todo) {
